@@ -3,29 +3,36 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#define _XOPEN_SOURCE_EXTENDED 1
+
 #include <unistd.h> //included this for the close function
 
 #include <netinet/in.h>
 
-int main()
-{
-    // data to be sent to cleints
-    char server_message[256] = "Recieved message FUCK";
+    // accept port number as command line argument
+   //  const static int default_port_number = 9002;
+   // static int port_number = default_port_number;
 
-    int server_socket;
+int main(int argc, char *argv[])
+{
+
+    const static int port_number = atoi(argv[1]);
+
+    // data to be sent to cleints
+    char server_message[20] = "Recieved messagewww";
+
+    
 
     // make socket call to get socket file descriptor
-    server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    const int server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
     // define the server address
-    struct sockaddr_in server_address;
-
+    ::sockaddr_in server_address;
+    auto serveraddr_ptr = &server_address;
     // specify family (AF_INET)
     server_address.sin_family = AF_INET;
 
     // specify port
-    server_address.sin_port = htons(9002);
+    server_address.sin_port = htons(port_number);
 
     // specify address
     // INADDR_ANY resolves to any IP address on local machine
@@ -36,28 +43,30 @@ int main()
     // first argument is socket file descriptor
     // second argument is the port number
     // third is size of server address
-    bind(server_socket, (struct sockaddr *)&server_address, sizeof(server_address));
+    // ::-->scoping operating
+    //change 2nd argument to c++ cast
+    ::bind(server_socket, (sockaddr *)serveraddr_ptr, sizeof(server_address));
 
     // now that the server is bound to an address, we can enable server to listen
     // for connections from the clients
     // first argument is socket file descriptor
     // 2nd is backlog, how many connections can be waiting for this socket
-    listen(server_socket, 5);
+    ::listen(server_socket, 5);
 
     // integer to hold client socket, when we listen for connections,
     // can begin to accept connections, accept call gives back client socket fd
-    int client_socket;
+
     // first parameter is socket we are accepting connections on, aka server socket
     // next two params can be left as NULL for now
-    client_socket = accept(server_socket, NULL, NULL);
+    int client_socket = ::accept(server_socket, NULL, NULL);
 
     // we can send data to client
     // first arg is socket we are sending data to
     // second arg is data we want to send
     // third argument is size of message
-    send(client_socket, server_message, sizeof(server_message), NULL);
+    ::send(client_socket, server_message, sizeof(server_message), NULL);
 
     // can close socket
-    close(server_socket);
+    ::close(server_socket);
     return 0;
 }
