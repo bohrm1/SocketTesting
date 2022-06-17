@@ -24,6 +24,11 @@ int main(int argc, char *argv[])
 
     // make socket call to get socket file descriptor
     const int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    
+    if(server_socket < 1) {
+        printf("Failed to creat server socket");
+        exit(EXIT_FAILURE);
+    }
 
     // define the server address
     ::sockaddr_in server_address;
@@ -45,7 +50,10 @@ int main(int argc, char *argv[])
     // third is size of server address
     // ::-->scoping operating
     //change 2nd argument to c++ cast
-    ::bind(server_socket, (sockaddr *)serveraddr_ptr, sizeof(server_address));
+    if (::bind(server_socket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
+        printf("Error binding socket to address");
+        exit(EXIT_FAILURE);
+    }
 
     // now that the server is bound to an address, we can enable server to listen
     // for connections from the clients

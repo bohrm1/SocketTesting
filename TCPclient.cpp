@@ -51,10 +51,10 @@ int main(int argc, char *argv[])
 	else 
 	{
 		// recieve data from the server using recv function
-		char server_response[14]; // hold message that we get back from server
+		char server_response[256]; // hold message that we get back from server
 		int recieve_status = ::recv(network_socket, &server_response, sizeof(server_response), 0);
 
-		if(recieve_status == 14) {       //checking if the server message fills server_response
+		if(recieve_status == 256) {       //checking if the server message fills server_response
 			printf("The server message has filled up the buffer: %s \n", server_response);
 			printf("Recieve Status: %u \n", recieve_status);
 		}
