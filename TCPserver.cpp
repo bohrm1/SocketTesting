@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     const static int port_number = atoi(argv[1]);
 
     // data to be sent to cleints
-    char server_message[20] = "Recieved messagewww";
+    char server_message[17] = "Recieved message";
 
     
 
