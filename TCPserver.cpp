@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
 
     // make socket call to get socket file descriptor
     const int server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    
-    if(server_socket < 1) {
+
+    if(server_socket < 0) {
         printf("Failed to creat server socket");
         exit(EXIT_FAILURE);
     }
