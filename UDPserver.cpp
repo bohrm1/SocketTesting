@@ -16,7 +16,7 @@
 int main(int argc, char *argv[])
 {
     const static int port_number = atoi(argv[1]);
-    char *server_message = "Recieved messagewww";
+    char *server_message = "Server message";
     char buffer[MAXLINE];
 
     const int server_socket = socket(AF_INET, SOCK_DGRAM, 0);
