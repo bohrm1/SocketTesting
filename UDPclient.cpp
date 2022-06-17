@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	const static int port_number = atoi(argv[1]);
 
 	// creating client socket
-	int network_socket = ::socket(AF_INET, SOCK_STREAM, 0);
+	int network_socket = ::socket(AF_INET, SOCK_DGRAM, 0);
 	char buffer[MAXLINE];
 	char *client_message = "Client message";
 
