@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
 
 	::sendto(network_socket, (const char*)client_message, strlen(client_message), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 	
-	socklen_t server_address_length = sizeof(server_address);
 
 	int n = ::recvfrom(network_socket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
 
