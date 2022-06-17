@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     /* recvfrom() returns the length of the message written to the buffer pointed by 
     the buffer argument. \0 is the null termination character and it marks the end of 
     the string. I'm assuming thats the point of the buffer[n] line */
-    int n = ::recvfrom(server_socket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &client_address, &client_address_length);
+    int n = ::recvfrom(server_socket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);
     buffer[n] = '\0';
     printf("Client: %s \n", buffer);
 
