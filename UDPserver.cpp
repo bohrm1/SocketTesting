@@ -17,8 +17,9 @@ int main(int argc, char *argv[])
     char server_message[20] = "Recieved messagewww";
     char buffer[MAXLINE];
 
+    const int server_socket = socket(AF_INET, SOCK_DGRAM, 0);
     // make socket call to get socket file descriptor
-    if (const int server_socket = socket(AF_INET, SOCK_DGRAM, 0) < 0) {
+    if (server_socket < 0) {
         printf("Failed to create socket");
         exit(EXIT_FAILURE);
     };
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
     server_address.sin_addr.s_addr = INADDR_ANY;
 
  
-    if (::bind(server_socket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 1) {
+    if (::bind(server_socket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
         printf("Failed to bind socket to address");
         exit(EXIT_FAILURE);
     }
