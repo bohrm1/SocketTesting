@@ -10,7 +10,7 @@ private:
 
 public: 
     
-    TCPclient();     //constructor 
+    TCPclient(int port_number, int client_address);     //constructor 
     ~TCPclient();    //deconstructor
 
 
