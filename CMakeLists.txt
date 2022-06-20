@@ -19,4 +19,9 @@ add_executable(TCPclient TCPclient.cpp)
 add_executable(UDPserver UDPserver.cpp)
 add_executable(UDPclient UDPclient.cpp)
 
+#imported glfags library target
+target_link_libraries(TCPserver gflags::gflags)
+target_link_libraries(TCPclient gflags::gflags)
+target_link_libraries(USPserver gflags::gflags)
+target_link_libraries(UDPclient gflags::gflags)
 
