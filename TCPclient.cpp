@@ -9,21 +9,24 @@
 
 #include <netinet/in.h> //contains socket structs
 
-
+#include <string>
 #include "TCPclient.h"
 
 
 
-TCPclient::TCPclient(int port_number, int client_address) {
+TCPclient::TCPclient(int port_number, std::string client_address) {
 	PortNumber = port_number;
 	ClientAddress = client_address;
+
+	
 }
+
 
 void TCPclient::setPortNumber(int port_number) {
 	PortNumber = port_number;
 }
 
-void TCPclient::setClientAddress(int client_address) {
+void TCPclient::setClientAddress(std::string client_address) {
 	ClientAddress = client_address;
 }
 
@@ -31,7 +34,7 @@ int TCPclient::getPortNumber(void) {
 	return PortNumber;
 }
 
-int TCPclient::getClientAddress(void) {
+std::string TCPclient::getClientAddress(void) {
 	return ClientAddress;
 }
 
