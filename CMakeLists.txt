@@ -2,6 +2,8 @@
 #set version of cmake to version on server
 cmake_minimum_required(VERSION "3.18.4")
 
+find_package(gflags REQUIRED)
+
 #give project a name 
 project(TCPtest)
 

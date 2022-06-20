@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include <gflags/gflags.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -13,12 +15,11 @@
 #include "TCPclient.h"
 
 
-
 TCPclient::TCPclient(int port_number, std::string client_address) {
 	PortNumber = port_number;
 	ClientAddress = client_address;
 
-	
+
 }
 
 
