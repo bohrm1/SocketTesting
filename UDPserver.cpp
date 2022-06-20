@@ -28,8 +28,7 @@ int main(int argc, char *argv[])
 {
     gflags::SetVersionString("1.0");
 
-    gflags::SetUsageMessage(
-      "port_number"); 
+    gflags::SetUsageMessage("port_number"); 
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);
     //const static int port_number = atoi(argv[1]);
