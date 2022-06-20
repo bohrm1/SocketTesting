@@ -14,7 +14,6 @@ public:
     TCPclient(int port_number, std::string client_address);     //constructor 
     ~TCPclient();    //deconstructor
 
-   // void createSocket();
     //setters and getters;
     void setPortNumber(int port_number);
     int getPortNumber(void);
