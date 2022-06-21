@@ -24,8 +24,8 @@ add_executable(TCPserver TCPservermain.cpp TCPserver.cpp)
 add_executable(TCPclient TCPclientmain.cpp TCPclient.cpp)
 
 #imported glfags library target
-#target_link_libraries(TCPserver gflags)
-#target_link_libraries(TCPclient gflags)
+target_link_libraries(TCPserver gflags)
+target_link_libraries(TCPclient gflags)
 #target_link_libraries(UDPserver gflags)
 #target_link_libraries(UDPclient gflags)
 
