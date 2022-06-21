@@ -25,7 +25,7 @@ TCPclient::TCPclient(int port_number, std::string client_address) {
 	auto serveraddr_ptr = &server_address;
 
 	server_address.sin_family = AF_INET;
-	server_address.sin_port = htons(port_number);
+	server_address.sin_port = htons(PortNumber);
 	server_address.sin_addr.s_addr = INADDR_ANY;
 
 	int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
