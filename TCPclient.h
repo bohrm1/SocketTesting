@@ -8,6 +8,7 @@ class TCPclient
 private:
     int PortNumber;
     std::string ClientAddress;
+    int NetworkSocket;
 
 public: 
     
