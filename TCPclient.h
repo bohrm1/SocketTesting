@@ -22,3 +22,5 @@ public:
     std::string getClientAddress(void);
 
 };
+
+#endif //TCPCLIENT_H
