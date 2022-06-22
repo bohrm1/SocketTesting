@@ -25,7 +25,7 @@ DEFINE_validator(port_number, &ValidatePort);
 int main (int argc, char *argv[])  {
 
     gflags::SetVersionString("1.0");
-	gflags::SetUsageMessage ("port_number");
+	  gflags::SetUsageMessage ("port_number");
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     printf("Listening on port: %d \n", FLAGS_port_number);
