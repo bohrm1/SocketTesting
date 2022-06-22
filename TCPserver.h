@@ -1,5 +1,5 @@
-#ifndef TCPCLIENT_H
-#define TCPCLIENT_h
+#ifndef TCPSERVER_H
+#define TCPSERVER_h
 
 #include <string>
 
