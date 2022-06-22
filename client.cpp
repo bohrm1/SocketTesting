@@ -15,9 +15,10 @@
 #include "client.h"
 
 
-Client::Client(int port_number, std::string client_address) {
+Client::Client(int port_number, std::string client_address, std::string comms_protocol) {
 	PortNumber = port_number;
 	ClientAddress = client_address;
+	CommsProtocol = comms_protocol; 
 	NetworkSocket = socket(AF_INET, SOCK_STREAM, 0);
 
 	
@@ -64,6 +65,10 @@ void Client::setClientAddress(std::string client_address) {
 	ClientAddress = client_address;
 }
 
+void Client::setCommsProtocol(std::string comms_protocol) {
+	CommsProtocol = comms_protocol;
+}
+
 int Client::getPortNumber(void) {
 	return PortNumber;
 }
@@ -71,4 +76,10 @@ int Client::getPortNumber(void) {
 std::string Client::getClientAddress(void) {
 	return ClientAddress;
 }
+
+std::string Client::getCommmsProtocol(void) {
+	return CommsProtocol; 
+}
+
+
 
