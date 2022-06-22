@@ -56,7 +56,6 @@ int main(int argc, char *argv[])
 
 	::sendto(network_socket, (const char*)client_message, strlen(client_message), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 	
-
 	int n = ::recvfrom(network_socket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
 
 	buffer[n] = '\0';
