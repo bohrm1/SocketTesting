@@ -1,9 +1,9 @@
-#ifndef TCPCLIENT_H
-#define TCPCLIENT_H
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #include <string>
 
-class TCPclient 
+class Client 
 {
 private:
     int PortNumber;
@@ -12,8 +12,8 @@ private:
 
 public: 
     
-    TCPclient(int port_number, std::string client_address);     //constructor 
-    ~TCPclient();    //deconstructor
+    Client(int port_number, std::string client_address);     //constructor 
+    ~Client();    //deconstructor
 
     //setters and getters;
     void setPortNumber(int port_number);
