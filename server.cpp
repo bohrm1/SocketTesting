@@ -87,7 +87,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         buffer[n] = '\0';
         printf("Client: %s \n", buffer);
 
-        
         ::sendto(ServerSocket, (const char *)server_message, strlen(server_message), MSG_CONFIRM, (const struct sockaddr *)clientaddr_ptr, client_address_length);
     }
 }
