@@ -8,149 +8,106 @@
 #include <unistd.h> //included this for the close function
 
 #include <netinet/in.h>
-#include <string>
+#include <string.h>
 
-#include "TCPserver.h"
+#include "server.h"
+constexpr int MAXLINE = 1024;
 
     // accept port number as command line argument
    //  const static int default_port_number = 9002;
    // static int port_number = default_port_number;
 
-TCPserver::TCPserver(int port_number, std::string server_addr) {
+Server::Server(int port_number, std::string server_addr, std::string comms_protocol) {
     PortNumber = port_number;
     ServerAddr = server_addr;
-    ServerSocket = socket(AF_INET, SOCK_STREAM, 0);
+    CommsProtocol = comms_protocol;
 
-    char server_message[17] = "Recieved message";
+    if (CommsProtocol == "TCP") {
+        ServerSocket = socket(AF_INET, SOCK_STREAM, 0);
 
-  if(ServerSocket < 0) {
-        printf("Failed to creat server socket");
-        exit(EXIT_FAILURE);
+        char server_message[17] = "Recieved message";
+
+        if(ServerSocket < 0) {
+            printf("Failed to creat server socket");
+            exit(EXIT_FAILURE);
+        }
+
+        // define the server address
+        ::sockaddr_in server_address;
+        auto serveraddr_ptr = &server_address;
+        // specify family (AF_INET)
+        server_address.sin_family = AF_INET;
+        server_address.sin_port = htons(port_number);
+        server_address.sin_addr.s_addr = INADDR_ANY;
+
+
+        if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
+            printf("Error binding socket to address");
+            exit(EXIT_FAILURE);
+        }
+
+        ::listen(ServerSocket, 5);
+
+        int client_socket = ::accept(ServerSocket, NULL, NULL);
+
+        ::send(client_socket, server_message, sizeof(server_message), NULL);
     }
+    else {
+        char *server_message = "Server message";
+        char buffer[MAXLINE]; //take out macro 
 
-    // define the server address
-    ::sockaddr_in server_address;
-    auto serveraddr_ptr = &server_address;
-    // specify family (AF_INET)
-    server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(port_number);
-    server_address.sin_addr.s_addr = INADDR_ANY;
+        ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);
+        // make socket call to get socket file descriptor
+        if (ServerSocket < 0) {
+            printf("Failed to create socket");
+            exit(EXIT_FAILURE);
+        };
 
+        // instantiate the server and client address
+        ::sockaddr_in server_address, client_address;
+        auto serveraddr_ptr = &server_address;
+        auto clientaddr_ptr = &client_address;
+        
+        server_address.sin_family = AF_INET;
+        server_address.sin_port = htons(PortNumber);
+        server_address.sin_addr.s_addr = INADDR_ANY;
 
-    if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
-        printf("Error binding socket to address");
-        exit(EXIT_FAILURE);
+    
+        if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
+            printf("Failed to bind socket to address");
+            exit(EXIT_FAILURE);
+        }
+
+        socklen_t client_address_length = sizeof(client_address);
+
+        /* recvfrom() returns the length of the message written to the buffer pointed by 
+        the buffer argument. \0 is the null termination character and it marks the end of 
+        the string. I'm assuming thats the point of the buffer[n] line */
+        int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);
+        buffer[n] = '\0';
+        printf("Client: %s \n", buffer);
+
+        
+        ::sendto(ServerSocket, (const char *)server_message, strlen(server_message), MSG_CONFIRM, (const struct sockaddr *)clientaddr_ptr, client_address_length);
     }
-
-    // now that the server is bound to an address, we can enable server to listen
-    // for connections from the clients
-    // first argument is socket file descriptor
-    // 2nd is backlog, how many connections can be waiting for this socket
-    ::listen(ServerSocket, 5);
-
-    // integer to hold client socket, when we listen for connections,
-    // can begin to accept connections, accept call gives back client socket fd
-
-    // first parameter is socket we are accepting connections on, aka server socket
-    // next two params can be left as NULL for now
-    int client_socket = ::accept(ServerSocket, NULL, NULL);
-
-    // we can send data to client
-    // first arg is socket we are sending data to
-    // second arg is data we want to send
-    // third argument is size of message
-    ::send(client_socket, server_message, sizeof(server_message), NULL);
-
 }
 
-TCPserver::~TCPserver() {
+Server::~Server() {
     ::close(ServerSocket);
 }
 
-void TCPserver::setPortNumber(int port_number) {
+void Server::setPortNumber(int port_number) {
     PortNumber = port_number;
 } 
 
-void TCPserver::setServerAddress(std::string server_addr) {
+void Server::setServerAddress(std::string server_addr) {
     ServerAddr = server_addr;
 }
 
-int TCPserver::getPortNumber(void) {
+int Server::getPortNumber(void) {
     return PortNumber;
 }
 
-std::string TCPserver::getServerAddress(void) {
+std::string Server::getServerAddress(void) {
     return ServerAddr; 
 }
-
-
-/*
-
-int main(int argc, char *argv[])
-{
-
-    const static int port_number = atoi(argv[1]);
-
-    // data to be sent to cleints
-    char server_message[17] = "Recieved message";
-
-    
-
-    // make socket call to get socket file descriptor
-    const int server_socket = socket(AF_INET, SOCK_STREAM, 0);
-
-    if(server_socket < 0) {
-        printf("Failed to creat server socket");
-        exit(EXIT_FAILURE);
-    }
-
-    // define the server address
-    ::sockaddr_in server_address;
-    auto serveraddr_ptr = &server_address;
-    // specify family (AF_INET)
-    server_address.sin_family = AF_INET;
-
-    // specify port
-    server_address.sin_port = htons(port_number);
-
-    // specify address
-    // INADDR_ANY resolves to any IP address on local machine
-
-    server_address.sin_addr.s_addr = INADDR_ANY;
-
-    // need to bind server socket to specified IP address and port
-    // first argument is socket file descriptor
-    // second argument is the port number
-    // third is size of server address
-    // ::-->scoping operating
-    //change 2nd argument to c++ cast
-    if (::bind(server_socket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
-        printf("Error binding socket to address");
-        exit(EXIT_FAILURE);
-    }
-
-    // now that the server is bound to an address, we can enable server to listen
-    // for connections from the clients
-    // first argument is socket file descriptor
-    // 2nd is backlog, how many connections can be waiting for this socket
-    ::listen(server_socket, 5);
-
-    // integer to hold client socket, when we listen for connections,
-    // can begin to accept connections, accept call gives back client socket fd
-
-    // first parameter is socket we are accepting connections on, aka server socket
-    // next two params can be left as NULL for now
-    int client_socket = ::accept(server_socket, NULL, NULL);
-
-    // we can send data to client
-    // first arg is socket we are sending data to
-    // second arg is data we want to send
-    // third argument is size of message
-    ::send(client_socket, server_message, sizeof(server_message), NULL);
-
-    // can close socket
-    ::close(server_socket);
-    return 0;
-}
-
-*/
