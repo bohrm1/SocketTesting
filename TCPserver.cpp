@@ -8,7 +8,7 @@
 #include <unistd.h> //included this for the close function
 
 #include <netinet/in.h>
-#include <string>
+#include <string.h>
 
 #include "TCPserver.h"
 
@@ -23,7 +23,7 @@ TCPserver::TCPserver(int port_number, std::string server_addr) {
 
     char server_message[17] = "Recieved message";
 
-  if(ServerSocket < 0) {
+    if(ServerSocket < 0) {
         printf("Failed to creat server socket");
         exit(EXIT_FAILURE);
     }
