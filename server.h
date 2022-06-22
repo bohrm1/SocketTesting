@@ -1,25 +1,26 @@
-#ifndef TCPCLIENT_H
-#define TCPCLIENT_h
+#ifndef SERVER_H
+#define SERVER_H
 
-#include <string>
+#include <string.h>
 
-class TCPserver 
+class Server 
 {
 private:
     int PortNumber;
     std::string ServerAddr;
+    std::string CommsProtocol;
     int ServerSocket; 
 
 public: 
-    TCPserver(int port_number, std::string server_addr);
-    ~TCPserver();
+    Server(int port_number, std::string server_addr, std::string comms_protocol);
+    ~Server();
 
     void setPortNumber(int port_number);
     int getPortNumber(void);
     void setServerAddress(std::string server_addr);
     std::string getServerAddress(void);
-
-
+    void setCommsProtocol(std::string comms_protocol);
+    std::string getCommsProtocol(void);
 };
 
 #endif
