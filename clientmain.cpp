@@ -28,7 +28,7 @@ DEFINE_string(comms_protocol, "TCP", "Communication protocol (TCP/UDP). Defualt 
 int main (int argc, char *argv[])  {
 
     gflags::SetVersionString("1.0");
-	  gflags::SetUsageMessage ("port_number" "comm_protocol");
+	  gflags::SetUsageMessage ("port_number, comms_protocol");
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     printf("Listening on port: %d \n", FLAGS_port_number);
