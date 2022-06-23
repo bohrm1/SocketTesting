@@ -22,25 +22,24 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 	ClientAddress = client_address;
 	CommsProtocol = comms_protocol; 
 
+	::sockaddr_in server_address;
+	server_address.sin_family = AF_INET;
+	server_address.sin_port = htons(PortNumber);
+	server_address.sin_addr.s_addr = INADDR_ANY;
+
+
 	if (CommsProtocol == "TCP") {
 		NetworkSocket = socket(AF_INET, SOCK_STREAM, 0);
-		::sockaddr_in server_address;
 		auto serveraddr_ptr = &server_address;
-
-		server_address.sin_family = AF_INET;
-		server_address.sin_port = htons(PortNumber);
-		server_address.sin_addr.s_addr = INADDR_ANY;
 
 		int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
 
-		// check for error with connection. if connect = -1, means error connecting
-		if (connection_status == -1)
+		if (connection_status == -1)             								 // check for error with connection. if connect = -1, means error connecting
 		{
 			printf("There was an error making a connection to the remote socket\n");
 		}
 		else 
 		{
-			// recieve data from the server using recv function
 			char server_response[256]; // hold message that we get back from server
 			int recieve_status = ::recv(NetworkSocket, &server_response, sizeof(server_response), 0);
 
@@ -59,15 +58,8 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 		char buffer[MAXLINE];
 		char *client_message = "Client message";
 
-		//instantiating client_address struct of type sockaddr_in
-		::sockaddr_in server_address;
-
 		// specify an address for the socket to connect to
 		auto serveraddr_ptr = &server_address;
-
-		server_address.sin_family = AF_INET;
-		server_address.sin_port = htons(PortNumber);
-		server_address.sin_addr.s_addr = INADDR_ANY;
 
 		socklen_t server_address_length = sizeof(server_address);
 

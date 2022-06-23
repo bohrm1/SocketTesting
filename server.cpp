@@ -13,14 +13,16 @@
 #include "server.h"
 constexpr int MAXLINE = 1024;
 
-    // accept port number as command line argument
-   //  const static int default_port_number = 9002;
-   // static int port_number = default_port_number;
 
 Server::Server(int port_number, std::string server_addr, std::string comms_protocol) {
     PortNumber = port_number;
     ServerAddr = server_addr;
     CommsProtocol = comms_protocol;
+
+    ::sockaddr_in server_address;
+    server_address.sin_family = AF_INET;
+    server_address.sin_port = htons(port_number);
+    server_address.sin_addr.s_addr = INADDR_ANY;
 
     if (CommsProtocol == "TCP") {
         ServerSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -32,15 +34,8 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
             exit(EXIT_FAILURE);
         }
 
-        // define the server address
-        ::sockaddr_in server_address;
         auto serveraddr_ptr = &server_address;
-        // specify family (AF_INET)
-        server_address.sin_family = AF_INET;
-        server_address.sin_port = htons(port_number);
-        server_address.sin_addr.s_addr = INADDR_ANY;
-
-
+     
         if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
             printf("Error binding socket to address");
             exit(EXIT_FAILURE);
@@ -54,25 +49,20 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     }
     else {
         char *server_message = "Server message";
-        char buffer[MAXLINE]; //take out macro 
+        char buffer[MAXLINE]; 
 
-        ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);
-        // make socket call to get socket file descriptor
+        ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);  // make socket call to get socket file descriptor
+        
         if (ServerSocket < 0) {
             printf("Failed to create socket");
             exit(EXIT_FAILURE);
         };
 
-        // instantiate the server and client address
-        ::sockaddr_in server_address, client_address;
+        // instantiate client address
+        ::sockaddr_in client_address;
         auto serveraddr_ptr = &server_address;
         auto clientaddr_ptr = &client_address;
         
-        server_address.sin_family = AF_INET;
-        server_address.sin_port = htons(PortNumber);
-        server_address.sin_addr.s_addr = INADDR_ANY;
-
-    
         if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
             printf("Failed to bind socket to address");
             exit(EXIT_FAILURE);
