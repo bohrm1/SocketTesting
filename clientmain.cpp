@@ -32,7 +32,7 @@ int main (int argc, char *argv[])  {
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     printf("Listening on port: %d \n", FLAGS_port_number);
-    printf("Communication protocol: %s \n", FLAGS_comms_protocol);
+    printf("Communication protocol: %s \n", FLAGS_comms_protocol.c_str());
 
     Client client1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
 
