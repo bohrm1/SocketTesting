@@ -56,7 +56,8 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 	else {
 		NetworkSocket = ::socket(AF_INET, SOCK_DGRAM, 0);
 		char buffer[MAXLINE];
-		char *client_message = "Client message";
+		char client_message[] = "Client messages";   //char*
+		//auto clippr = &client_message[0];
 
 		// specify an address for the socket to connect to
 		auto serveraddr_ptr = &server_address;
