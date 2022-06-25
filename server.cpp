@@ -35,19 +35,20 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     auto serveraddr_ptr = &server_address;
     auto clientaddr_ptr = &client_address;
 
-    char server_message[] = "Server Message ahh";
+    char server_message[] = "Server Message";
 
     if(ServerSocket < 0) {
         printf("Failed to creat server socket");
         exit(EXIT_FAILURE);
     }
 
+    if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
+    printf("Error binding socket to address");
+    exit(EXIT_FAILURE);
+    }
+
     if (CommsProtocol == "TCP") {
-     
-        if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
-            printf("Error binding socket to address");
-            exit(EXIT_FAILURE);
-        }
+    
 
         ::listen(ServerSocket, 5);
 
@@ -58,11 +59,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     else {
         char buffer[MAXLINE]; 
         
-        if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
-            printf("Failed to bind socket to address");
-            exit(EXIT_FAILURE);
-        }
-
         socklen_t client_address_length = sizeof(client_address);
 
         int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);
