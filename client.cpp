@@ -34,8 +34,9 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 		NetworkSocket = socket(AF_INET, SOCK_DGRAM, 0);
 	}
 
+	auto serveraddr_ptr = &server_address;
+
 	if (CommsProtocol == "TCP") {
-		auto serveraddr_ptr = &server_address;
 
 		int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
 
@@ -64,7 +65,6 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 		//auto clippr = &client_message[0];
 
 		// specify an address for the socket to connect to
-		auto serveraddr_ptr = &server_address;
 
 		socklen_t server_address_length = sizeof(server_address);
 
