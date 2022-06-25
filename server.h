@@ -9,7 +9,12 @@ private:
     int PortNumber;
     std::string ServerAddr;
     std::string CommsProtocol;
+    //char* ServerMessage;
+    char* server_message = "Hello from server";
     int ServerSocket; 
+    ::sockaddr_in server_address, client_address;
+    ::sockaddr_in* serveraddr_ptr = &server_address;
+    ::sockaddr_in* clientaddr_ptr = &client_address;
 
 public: 
     Server(int port_number, std::string server_addr, std::string comms_protocol);
@@ -22,7 +27,8 @@ public:
     void setCommsProtocol(std::string comms_protocol);
     std::string getCommsProtocol(void);
 
-    void send(char server_message[]);
+    //void setMessage(char server_message[]); 
+    void send(void);
     char* recv(void);
 };
 

@@ -19,7 +19,13 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     ServerAddr = server_addr;
     CommsProtocol = comms_protocol;
 
+    char server_message[] = "Server Message";
+
+    /* 
     ::sockaddr_in server_address, client_address;
+    ::sockaddr_in* serveraddr_ptr = &server_address;
+    ::sockaddr_in* clientaddr_ptr = &client_address;
+    */
 
     server_address.sin_family = AF_INET;
     server_address.sin_port = htons(port_number);
@@ -32,10 +38,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);
     }
 
-    auto serveraddr_ptr = &server_address;
-    auto clientaddr_ptr = &client_address;
-
-    char server_message[] = "Server Message";
 
     if(ServerSocket < 0) {
         printf("Failed to creat server socket");
@@ -47,8 +49,35 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         exit(EXIT_FAILURE);
     }
 
+    /*
     if (CommsProtocol == "TCP") {
     
+        ::listen(ServerSocket, 5);
+
+        int client_socket = ::accept(ServerSocket, NULL, NULL);
+
+        ::send(client_socket, server_message, sizeof(server_message), NULL);
+    }
+    else {
+        char buffer[MAXLINE]; 
+        
+        socklen_t client_address_length = sizeof(client_address);
+
+        int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);
+        buffer[n] = '\0';
+        printf("Client: %s \n", buffer);
+
+        ::sendto(ServerSocket, (const char *)server_message, strlen(server_message), MSG_CONFIRM, (const struct sockaddr *)clientaddr_ptr, client_address_length);
+    } */
+}
+
+Server::~Server() {
+    ::close(ServerSocket);
+}
+
+void Server::send(void) {
+    if (CommsProtocol == "TCP") {
+
         ::listen(ServerSocket, 5);
 
         int client_socket = ::accept(ServerSocket, NULL, NULL);
@@ -68,14 +97,11 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     }
 }
 
-Server::~Server() {
-    ::close(ServerSocket);
+/*
+void Server::setMessage(char server_message[]) {
+    ServerMessage = server_message;
 }
-
-void Server::send(char server_message[]) {
-
-}
-
+*/
 char* Server::recv(void) {
     
 }
