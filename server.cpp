@@ -19,7 +19,7 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     ServerAddr = server_addr;
     CommsProtocol = comms_protocol;
 
-    char server_message[] = "Server Message";
+    //char server_message[] = "Server Message";
 
     /* 
     ::sockaddr_in server_address, client_address;
