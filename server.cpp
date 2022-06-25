@@ -43,13 +43,12 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     }
 
     if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
-    printf("Error binding socket to address");
-    exit(EXIT_FAILURE);
+        printf("Error binding socket to address");
+        exit(EXIT_FAILURE);
     }
 
     if (CommsProtocol == "TCP") {
     
-
         ::listen(ServerSocket, 5);
 
         int client_socket = ::accept(ServerSocket, NULL, NULL);
