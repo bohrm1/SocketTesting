@@ -27,9 +27,14 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 	server_address.sin_port = htons(PortNumber);
 	server_address.sin_addr.s_addr = INADDR_ANY;
 
-
 	if (CommsProtocol == "TCP") {
 		NetworkSocket = socket(AF_INET, SOCK_STREAM, 0);
+	}
+	else if (CommsProtocol == "UDP") {
+		NetworkSocket = socket(AF_INET, SOCK_DGRAM, 0);
+	}
+
+	if (CommsProtocol == "TCP") {
 		auto serveraddr_ptr = &server_address;
 
 		int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
@@ -54,7 +59,6 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 		}
 	}
 	else {
-		NetworkSocket = ::socket(AF_INET, SOCK_DGRAM, 0);
 		char buffer[MAXLINE];
 		char client_message[] = "Client messages";   //char*
 		//auto clippr = &client_message[0];
