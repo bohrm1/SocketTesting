@@ -72,6 +72,14 @@ Server::~Server() {
     ::close(ServerSocket);
 }
 
+void Server::send(char server_message[]) {
+
+}
+
+char* Server::recv(void) {
+    
+}
+
 void Server::setPortNumber(int port_number) {
     PortNumber = port_number;
 } 

@@ -21,6 +21,9 @@ public:
     std::string getServerAddress(void);
     void setCommsProtocol(std::string comms_protocol);
     std::string getCommsProtocol(void);
+
+    void send(char server_message[]);
+    char* recv(void);
 };
 
 #endif
