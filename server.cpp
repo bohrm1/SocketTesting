@@ -37,12 +37,12 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
 
     char server_message[] = "Server Message ahh";
 
-    if (CommsProtocol == "TCP") {
+    if(ServerSocket < 0) {
+        printf("Failed to creat server socket");
+        exit(EXIT_FAILURE);
+    }
 
-        if(ServerSocket < 0) {
-            printf("Failed to creat server socket");
-            exit(EXIT_FAILURE);
-        }
+    if (CommsProtocol == "TCP") {
      
         if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
             printf("Error binding socket to address");
@@ -57,13 +57,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     }
     else {
         char buffer[MAXLINE]; 
-
-        if (ServerSocket < 0) {
-            printf("Failed to create socket");
-            exit(EXIT_FAILURE);
-        };
-
-        // instantiate client address
         
         if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
             printf("Failed to bind socket to address");
