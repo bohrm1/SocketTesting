@@ -19,7 +19,8 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     ServerAddr = server_addr;
     CommsProtocol = comms_protocol;
 
-    ::sockaddr_in server_address;
+    ::sockaddr_in server_address, client_address;
+
     server_address.sin_family = AF_INET;
     server_address.sin_port = htons(port_number);
     server_address.sin_addr.s_addr = INADDR_ANY;
@@ -31,6 +32,9 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);
     }
 
+    auto serveraddr_ptr = &server_address;
+    auto clientaddr_ptr = &client_address;
+
     if (CommsProtocol == "TCP") {
         char server_message[17] = "Recieved message";
 
@@ -38,8 +42,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
             printf("Failed to creat server socket");
             exit(EXIT_FAILURE);
         }
-
-        auto serveraddr_ptr = &server_address;
      
         if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
             printf("Error binding socket to address");
@@ -62,9 +64,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         };
 
         // instantiate client address
-        ::sockaddr_in client_address;
-        auto serveraddr_ptr = &server_address;
-        auto clientaddr_ptr = &client_address;
         
         if (::bind(ServerSocket, (sockaddr *)serveraddr_ptr, sizeof(server_address)) < 0) {
             printf("Failed to bind socket to address");
@@ -73,9 +72,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
 
         socklen_t client_address_length = sizeof(client_address);
 
-        /* recvfrom() returns the length of the message written to the buffer pointed by 
-        the buffer argument. \0 is the null termination character and it marks the end of 
-        the string. I'm assuming thats the point of the buffer[n] line */
         int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);
         buffer[n] = '\0';
         printf("Client: %s \n", buffer);
