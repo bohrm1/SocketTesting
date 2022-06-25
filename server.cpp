@@ -35,8 +35,9 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     auto serveraddr_ptr = &server_address;
     auto clientaddr_ptr = &client_address;
 
+    char server_message[] = "Server Message ahh";
+
     if (CommsProtocol == "TCP") {
-        char server_message[17] = "Recieved message";
 
         if(ServerSocket < 0) {
             printf("Failed to creat server socket");
@@ -55,7 +56,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         ::send(client_socket, server_message, sizeof(server_message), NULL);
     }
     else {
-        char *server_message = "Server message";
         char buffer[MAXLINE]; 
 
         if (ServerSocket < 0) {
