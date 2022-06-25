@@ -26,7 +26,12 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
 
     if (CommsProtocol == "TCP") {
         ServerSocket = socket(AF_INET, SOCK_STREAM, 0);
+    }
+    else if (CommsProtocol == "UDP") {
+        ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);
+    }
 
+    if (CommsProtocol == "TCP") {
         char server_message[17] = "Recieved message";
 
         if(ServerSocket < 0) {
@@ -51,8 +56,6 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         char *server_message = "Server message";
         char buffer[MAXLINE]; 
 
-        ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);  // make socket call to get socket file descriptor
-        
         if (ServerSocket < 0) {
             printf("Failed to create socket");
             exit(EXIT_FAILURE);
