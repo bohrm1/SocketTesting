@@ -35,6 +35,7 @@ int main (int argc, char *argv[])  {
     printf("Communication protocol: %s \n", FLAGS_comms_protocol.c_str());
 
     Client client1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
+    client1.recieve();
 
     return 0;
 }
