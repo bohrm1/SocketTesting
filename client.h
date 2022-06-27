@@ -1,5 +1,6 @@
 #ifndef CLIENT_H
 #define CLIENT_H
+constexpr int MAXLINE = 1024;
 
 #include <string>
 
@@ -10,6 +11,8 @@ private:
     std::string ClientAddress;
     std::string CommsProtocol;
     int NetworkSocket;
+    char server_response[MAXLINE]; 
+    
 
     ::sockaddr_in server_address;
     ::sockaddr_in* serveraddr_ptr = &server_address;

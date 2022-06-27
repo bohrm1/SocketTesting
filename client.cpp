@@ -13,7 +13,6 @@
 
 #include <string.h>
 #include "client.h"
-constexpr int MAXLINE = 1024;
 
 
 Client::Client(int port_number, std::string client_address, std::string comms_protocol) {
@@ -39,6 +38,7 @@ Client::~Client() {
 }
 
 void Client::recieve(void) {
+
 	if (CommsProtocol == "TCP") {
 		int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
 
@@ -48,10 +48,9 @@ void Client::recieve(void) {
 		}
 		else 
 		{
-			char server_response[256]; // hold message that we get back from server
 			int recieve_status = ::recv(NetworkSocket, &server_response, sizeof(server_response), 0);
 
-			if(recieve_status == 256) {       //checking if the server message fills server_response
+			if(recieve_status == MAXLINE) {       //checking if the server message fills server_response
 				printf("The server message has filled up the buffer: %s \n", server_response);
 				printf("Recieve Status: %u \n", recieve_status);
 			}
@@ -62,7 +61,6 @@ void Client::recieve(void) {
 		}
 	}
 	else {
-		char buffer[MAXLINE];
 		char client_message[] = "Client messages";   //char*
 		//auto clippr = &client_message[0];
 
@@ -71,9 +69,9 @@ void Client::recieve(void) {
 		socklen_t server_address_length = sizeof(server_address);
 		::sendto(NetworkSocket, (const char*)client_message, strlen(client_message), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 		
-		int n = ::recvfrom(NetworkSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
-		buffer[n] = '\0';
-		printf("Server: %s\n", buffer);
+		int n = ::recvfrom(NetworkSocket, (char *)server_response, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
+		server_response[n] = '\0';
+		printf("Server: %s\n", server_response);
 	}
 }
 
