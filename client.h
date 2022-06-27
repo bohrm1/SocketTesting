@@ -11,6 +11,9 @@ private:
     std::string CommsProtocol;
     int NetworkSocket;
 
+    ::sockaddr_in server_address;
+    ::sockaddr_in* serveraddr_ptr = &server_address;
+
 public: 
     
     Client(int port_number, std::string client_address, std::string comms_protocol);     //constructor 
@@ -23,6 +26,8 @@ public:
     std::string getClientAddress(void);
     void setCommsProtocol(std::string comms_protocol);
     std::string getCommmsProtocol(void);
+
+
 
 };
 

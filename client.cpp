@@ -22,7 +22,6 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 	ClientAddress = client_address;
 	CommsProtocol = comms_protocol; 
 
-	::sockaddr_in server_address;
 	server_address.sin_family = AF_INET;
 	server_address.sin_port = htons(PortNumber);
 	server_address.sin_addr.s_addr = INADDR_ANY;
@@ -33,8 +32,6 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 	else if (CommsProtocol == "UDP") {
 		NetworkSocket = socket(AF_INET, SOCK_DGRAM, 0);
 	}
-
-	auto serveraddr_ptr = &server_address;
 
 	if (CommsProtocol == "TCP") {
 
