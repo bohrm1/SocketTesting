@@ -38,8 +38,7 @@ int main (int argc, char *argv[])  {
 
     Server server1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
     server1.send(); 
-    
-
+  
     gflags::ShutDownCommandLineFlags();
     return 0;
 }
