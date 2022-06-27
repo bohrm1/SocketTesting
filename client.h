@@ -27,8 +27,8 @@ public:
     void setCommsProtocol(std::string comms_protocol);
     std::string getCommmsProtocol(void);
 
-
-
+    //function used to recieve message from the server
+    void recieve(void);
 };
 
 #endif //TCPCLIENT_H

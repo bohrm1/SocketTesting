@@ -32,9 +32,14 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 	else if (CommsProtocol == "UDP") {
 		NetworkSocket = socket(AF_INET, SOCK_DGRAM, 0);
 	}
+}
 
+Client::~Client() {
+	::close(NetworkSocket);
+}
+
+void Client::recieve(void) {
 	if (CommsProtocol == "TCP") {
-
 		int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
 
 		if (connection_status == -1)             								 // check for error with connection. if connect = -1, means error connecting
@@ -64,18 +69,12 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 		// specify an address for the socket to connect to
 
 		socklen_t server_address_length = sizeof(server_address);
-
 		::sendto(NetworkSocket, (const char*)client_message, strlen(client_message), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 		
 		int n = ::recvfrom(NetworkSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
-
 		buffer[n] = '\0';
 		printf("Server: %s\n", buffer);
 	}
-}
-
-Client::~Client() {
-	::close(NetworkSocket);
 }
 
 void Client::setPortNumber(int port_number) {
