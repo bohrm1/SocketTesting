@@ -26,6 +26,8 @@ add_executable(TCPclient TCPclientmain.cpp TCPclient.cpp)
 add_executable(server servermain.cpp server.cpp)
 add_executable(client clientmain.cpp client.cpp)
 
+add_executable(clientserver clientservermain.cpp client.cpp server.cpp)
+
 #imported glfags library target
 target_link_libraries(TCPserver gflags)
 target_link_libraries(TCPclient gflags)
@@ -33,6 +35,7 @@ target_link_libraries(TCPclient gflags)
 target_link_libraries(server gflags)
 target_link_libraries(client gflags)
 
+target_link_libraries(clientserver gflags pthread)
 #target_link_libraries(UDPserver gflags)
 #target_link_libraries(UDPclient gflags)
 
