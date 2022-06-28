@@ -37,8 +37,10 @@ int main (int argc, char *argv[])  {
     printf("Communication protocol: %s \n", FLAGS_comms_protocol.c_str());
 
     Server server1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
-    server1.send(); 
-  
+    std::string message = "Hello from server awesome";
+    server1.send(message); 
+    //message = "Hmesage two";
+    //server1.send(message); 
     gflags::ShutDownCommandLineFlags();
     return 0;
 }
