@@ -14,7 +14,7 @@
 constexpr int MAXLINE = 1024;
 
 
-Server::Server(int port_number, std::string server_addr, std::string comms_protocol) {
+Server::Server(int port_number, const std::string &server_addr, const std::string &comms_protocol) {
     PortNumber = port_number;
     ServerAddr = server_addr;
     CommsProtocol = comms_protocol;
@@ -31,6 +31,8 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
     server_address.sin_port = htons(port_number);
     server_address.sin_addr.s_addr = INADDR_ANY;
 
+    //printf("Before socket() call");
+    //fflush(stdout);
     if (CommsProtocol == "TCP") {
         ServerSocket = socket(AF_INET, SOCK_STREAM, 0);
     }
@@ -38,7 +40,8 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         ServerSocket = socket(AF_INET, SOCK_DGRAM, 0);
     }
 
-
+    //printf("before socket bind()");
+    //fflush(stdout);
     if(ServerSocket < 0) {
         printf("Failed to creat server socket");
         exit(EXIT_FAILURE);
@@ -48,7 +51,8 @@ Server::Server(int port_number, std::string server_addr, std::string comms_proto
         printf("Error binding socket to address");
         exit(EXIT_FAILURE);
     }
-
+    //printf("after socket bind");
+    //fflush(stdout);
     /*
     if (CommsProtocol == "TCP") {
     
@@ -75,25 +79,27 @@ Server::~Server() {
     ::close(ServerSocket);
 }
 
-void Server::send(void) {
+void Server::send(const std::string &server_message) {
     if (CommsProtocol == "TCP") {
 
-        ::listen(ServerSocket, 5);
+        const int backlog = 1;
+        ::listen(ServerSocket, backlog);
 
         int client_socket = ::accept(ServerSocket, NULL, NULL);
 
-        ::send(client_socket, server_message, sizeof(server_message), NULL);
+       // ::send(client_socket, server_message, sizeof(server_message), NULL);
+       ::send(client_socket, server_message.c_str(), server_message.length(), 0);
     }
     else {
         char buffer[MAXLINE]; 
         
         socklen_t client_address_length = sizeof(client_address);
 
-        int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);
+        int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);   //why am I sending so many bytes? 
         buffer[n] = '\0';
         printf("Client: %s \n", buffer);
 
-        ::sendto(ServerSocket, (const char *)server_message, strlen(server_message), MSG_CONFIRM, (const struct sockaddr *)clientaddr_ptr, client_address_length);
+        ::sendto(ServerSocket, server_message.c_str(), server_message.length(), MSG_CONFIRM, (const struct sockaddr *)clientaddr_ptr, client_address_length);
     }
 }
 
@@ -102,9 +108,6 @@ void Server::setMessage(char server_message[]) {
     ServerMessage = server_message;
 }
 */
-char* Server::recv(void) {
-    
-}
 
 void Server::setPortNumber(int port_number) {
     PortNumber = port_number;
