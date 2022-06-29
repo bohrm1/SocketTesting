@@ -12,7 +12,6 @@
 
 #include "server.h"
 
-
 static bool ValidatePort(const char* flagname, int32_t value) {
    if (value > 0 && value < 32768)   // value is ok
      return true;
@@ -38,6 +37,7 @@ int main (int argc, char *argv[])  {
 
     Server server1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
     std::string message = "Hello from server awesome";
+    server1.recieve();
     server1.send(message); 
     //message = "Hmesage two";
     //server1.send(message); 

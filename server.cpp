@@ -11,8 +11,6 @@
 #include <string.h>
 
 #include "server.h"
-constexpr int MAXLINE = 1024;
-
 
 Server::Server(int port_number, const std::string &server_addr, const std::string &comms_protocol) {
     PortNumber = port_number;
@@ -82,27 +80,43 @@ Server::~Server() {
 void Server::send(const std::string &server_message) {
     if (CommsProtocol == "TCP") {
 
+        
+        /*
         const int backlog = 1;
         ::listen(ServerSocket, backlog);
 
         int client_socket = ::accept(ServerSocket, NULL, NULL);
+        */
 
        // ::send(client_socket, server_message, sizeof(server_message), NULL);
-       ::send(client_socket, server_message.c_str(), server_message.length(), 0);
+       ::send(ClientSocket, server_message.c_str(), server_message.length(), 0);
     }
-    else {
-        char buffer[MAXLINE]; 
-        
+    else {        
         socklen_t client_address_length = sizeof(client_address);
 
+        /*
         int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);   //why am I sending so many bytes? 
         buffer[n] = '\0';
         printf("Client: %s \n", buffer);
+        */
 
         ::sendto(ServerSocket, server_message.c_str(), server_message.length(), MSG_CONFIRM, (const struct sockaddr *)clientaddr_ptr, client_address_length);
     }
 }
 
+void Server::recieve (void) {
+    if (CommsProtocol == "TCP") {
+        const int backlog = 1;
+        ::listen(ServerSocket, backlog);
+        ClientSocket = ::accept(ServerSocket, NULL, NULL);
+    }
+    else {
+        socklen_t client_address_length = sizeof(client_address);
+        int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE_CLIENTBUFFER, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);   //why am I sending so many bytes? 
+        buffer[n] = '\0';
+        printf("Client: %s \n", buffer);
+    }
+}
 
 int Server::getPortNumber(void) {
     return PortNumber;
