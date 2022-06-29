@@ -52,9 +52,13 @@ int main (int argc, char *argv[])  {
 
     //DoServer(server1);
     std::thread serverthread(DoServer, std::ref(server1));
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    DoClient(client1);
-    serverthread.join();  //wait for server thread to finish 
+    std::thread clientthread(DoClient, std::ref(client1));
+    //std::this_thread::sleep_for(std::chrono::seconds(2));
+    //DoClient(client1);
+
+    //sychronize threads, main thread waits for serverthread and clienthread to finish 
+    serverthread.join();  
+    clientthread.join();
 
     gflags::ShutDownCommandLineFlags();
     return 0;
