@@ -103,19 +103,6 @@ void Server::send(const std::string &server_message) {
     }
 }
 
-/*
-void Server::setMessage(char server_message[]) {
-    ServerMessage = server_message;
-}
-*/
-
-void Server::setPortNumber(int port_number) {
-    PortNumber = port_number;
-} 
-
-void Server::setServerAddress(std::string server_addr) {
-    ServerAddr = server_addr;
-}
 
 int Server::getPortNumber(void) {
     return PortNumber;
@@ -123,4 +110,8 @@ int Server::getPortNumber(void) {
 
 std::string Server::getServerAddress(void) {
     return ServerAddr; 
+}
+
+std::string Server::getCommsProtocol(void) {
+    return CommsProtocol;
 }
