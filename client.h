@@ -12,7 +12,7 @@ private:
     std::string CommsProtocol;
     int NetworkSocket;              
     char server_response[MAXLINE]; 
-    
+
 
     ::sockaddr_in server_address;
     ::sockaddr_in* serveraddr_ptr = &server_address;
