@@ -31,6 +31,7 @@ void DoServer(Server &myserver) {
 }
 
 void DoClient(Client &myclient) {
+    myclient.send();
     myclient.recieve(); 
 }
 
@@ -51,15 +52,10 @@ int main (int argc, char *argv[])  {
 
     //DoServer(server1);
     std::thread serverthread(DoServer, std::ref(server1));
-    printf("between function calls \n");
-    fflush(stdout);
     std::this_thread::sleep_for(std::chrono::seconds(2));
     DoClient(client1);
     serverthread.join();  //wait for server thread to finish 
-    printf("after function calls \n");
-    fflush(stdout);
-    //message = "Hmesage two";
-    //server1.send(message); 
+
     gflags::ShutDownCommandLineFlags();
     return 0;
 }
