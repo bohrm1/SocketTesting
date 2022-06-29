@@ -61,14 +61,15 @@ void Client::recieve(void) {
 		}
 	}
 	else {
-		char client_message[] = "Client messages";   //char*
+		std::string client_message = "Client messages";   //char*
 		//auto clippr = &client_message[0];
 
 		// specify an address for the socket to connect to
 
 		socklen_t server_address_length = sizeof(server_address);
-		::sendto(NetworkSocket, (const char*)client_message, strlen(client_message), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
-		
+		//::sendto(NetworkSocket, (const char*)client_message, strlen(client_message), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
+		::sendto(NetworkSocket, client_message.c_str(), client_message.length(), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
+
 		int n = ::recvfrom(NetworkSocket, (char *)server_response, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
 		server_response[n] = '\0';
 		printf("Server: %s\n", server_response);
