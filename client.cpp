@@ -40,9 +40,9 @@ Client::~Client() {
 void Client::recieve(void) {
 
 	if (CommsProtocol == "TCP") {
-		int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
+		//int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
 
-		if (connection_status == -1)             								 // check for error with connection. if connect = -1, means error connecting
+		if (ConnectionStatus == -1)             								 // check for error with connection. if connect = -1, means error connecting
 		{
 			printf("There was an error making a connection to the remote socket\n");
 		}
@@ -61,6 +61,7 @@ void Client::recieve(void) {
 		}
 	}
 	else {
+		/*
 		std::string client_message = "Client messages";   //char*
 		//auto clippr = &client_message[0];
 
@@ -69,6 +70,7 @@ void Client::recieve(void) {
 		socklen_t server_address_length = sizeof(server_address);
 		//::sendto(NetworkSocket, (const char*)client_message, strlen(client_message), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 		::sendto(NetworkSocket, client_message.c_str(), client_message.length(), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
+		*/
 
 		int n = ::recvfrom(NetworkSocket, (char *)server_response, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
 		server_response[n] = '\0';
@@ -76,12 +78,14 @@ void Client::recieve(void) {
 	}
 }
 
-void Client::setPortNumber(int port_number) {
-	PortNumber = port_number;
-}
-
-void Client::setClientAddress(std::string client_address) {
-	ClientAddress = client_address;
+void Client::send(void) {
+	if (CommsProtocol == "TCP") {
+		ConnectionStatus = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
+	}
+	else {
+		std::string client_message = "Client messages";   //char*
+		::sendto(NetworkSocket, client_message.c_str(), client_message.length(), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
+	}
 }
 
 void Client::setCommsProtocol(std::string comms_protocol) {

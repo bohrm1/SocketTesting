@@ -12,25 +12,24 @@ private:
     std::string CommsProtocol;
     int NetworkSocket;              
     char server_response[MAXLINE]; 
-
+    int ConnectionStatus;
 
     ::sockaddr_in server_address;
     ::sockaddr_in* serveraddr_ptr = &server_address;
+    socklen_t server_address_length = sizeof(server_address);
 
 public: 
     
     Client(int port_number, std::string client_address, std::string comms_protocol);     //constructor 
     ~Client();    //deconstructor
 
-    //setters and getters;
-    void setPortNumber(int port_number);
+
     int getPortNumber(void);
-    void setClientAddress(std::string client_address);
     std::string getClientAddress(void);
     void setCommsProtocol(std::string comms_protocol);
     std::string getCommmsProtocol(void);
 
-    //function used to recieve message from the server
+    void send(void);
     void recieve(void);
 };
 
