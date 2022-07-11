@@ -104,7 +104,7 @@ void Server::send(const std::string &server_message) {
     }
 }
 
-void Server::recieve (void) {
+void Server::recieve (void) {   
     if (CommsProtocol == "TCP") {
         const int backlog = 1;
         ::listen(ServerSocket, backlog);
