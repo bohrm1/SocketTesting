@@ -88,6 +88,13 @@ UDPServerIPv6::UDPServerIPv6(const std::string& local_address,
       AGORA_LOG_TRACE("Ipv6 Address:  %s \n",
                       ::inet_ntop(family, address_ptr, address_buffer,
                                   sizeof(address_buffer)));
+    } else if (family == AF_INET) {
+        [[maybe_unused]] auto* address_ptr =
+          &((sockaddr_in*)rp->ai_addr)->sin_addr;
+        [[maybe_unused]] char address_buffer[INET6_ADDRSTRLEN];
+        AGORA_LOG_TRACE("Ipv4 Address:  %s \n",
+                      ::inet_ntop(family, address_ptr, address_buffer,
+                                  sizeof(address_buffer)));
     } else {
       AGORA_LOG_ERROR(
           "UDPServerIPv6: Found address with unsupported family %d\n", family);
