@@ -38,7 +38,7 @@
 #include <thread>
 #include <vector>
 
-#include "symbols.h"
+//#include "symbols.h"
 
 // Default argument is to exclude core 0 from the list
 void SetCpuLayoutOnNumaNodes(
