@@ -6,6 +6,7 @@
 
 #include "server.h"
 #include "client.h"
+#include "udp_server_ipv6.h"
 
 #include <thread>
 
@@ -47,11 +48,12 @@ int main (int argc, char *argv[])  {
     printf("Listening on port: %d \n", FLAGS_port_number);
     printf("Communication protocol: %s \n", FLAGS_comms_protocol.c_str());
 
-    Server server1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
+    //Server server1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
+    UDPServerIPv6 server1(INADDR_ANY, FLAGS_port_number, 256);
     Client client1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
 
     //DoServer(server1);
-    std::thread serverthread(DoServer, std::ref(server1));
+    //std::thread serverthread(DoServer, std::ref(server1));
     std::thread clientthread(DoClient, std::ref(client1));
     //std::this_thread::sleep_for(std::chrono::seconds(2));
     //DoClient(client1);
