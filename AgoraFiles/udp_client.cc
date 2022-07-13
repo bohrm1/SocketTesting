@@ -2,11 +2,16 @@
  * @file udp_client.cc
  * @brief Defination file for the UDPClient class.  This class is used to send messages to a remote server
  */
+
+#include <mutex>
+#include <ScopedLock.h>
+
 #include "udp_client.h"
 
 #include <netdb.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include<scoped_allocator>
 
 #include <cstring> /* std::strerror, std::memset, std::memcpy */
 #include <stdexcept>
