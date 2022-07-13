@@ -19,7 +19,7 @@
 
 //Allow IPv4 or IPv6(AF_UNSPEC);
 //static const int kAllowedAiFamily = AF_INET6;
-static const int kAllowedAiFamily = AF_INET;
+static const int kAllowedAiFamily = AF_INET6;
 
 UDPServerIPv6::UDPServerIPv6(const std::string& local_address,
                              uint16_t local_port, size_t rx_buffer_size)
@@ -92,7 +92,7 @@ UDPServerIPv6::UDPServerIPv6(const std::string& local_address,
     } else if (family == AF_INET) {
         [[maybe_unused]] auto* address_ptr =
           &((sockaddr_in*)rp->ai_addr)->sin_addr;
-        [[maybe_unused]] char address_buffer[INET6_ADDRSTRLEN];
+        [[maybe_unused]] char address_buffer[INET_ADDRSTRLEN];
         AGORA_LOG_TRACE("Ipv4 Address:  %s \n",
                       ::inet_ntop(family, address_ptr, address_buffer,
                                   sizeof(address_buffer)));
