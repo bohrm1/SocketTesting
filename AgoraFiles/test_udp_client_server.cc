@@ -36,7 +36,8 @@ void ServerFunc() {
 
   // Without buffer resizing, the server will sometimes drop packets and
   // therefore never return from this function
-  UDPServer udp_server(kServerUDPPort, kMessageSize * kNumPackets);
+  //UDPServer udp_server(kServerUDPPort, kMessageSize * kNumPackets);
+  UDPServerIPv6 udp_server("127.0.0.1", kServerUDPPort, kMessageSize * kNumPackets);
   std::vector<uint8_t> pkt_buf(kMessageSize);
 
   server_ready = 1;
@@ -79,7 +80,7 @@ TEST(UDPClientServer, Perf) {
 
 // Test that the server is actually non-blocking
 TEST(UDPClientServer, ServerIsNonBlocking) {
-  UDPServer udp_server(kServerUDPPort);
+  UDPServerIPv6 udp_server("127.0.0.1", kServerUDPPort, kMessageSize * kNumPackets);
   std::vector<uint8_t> packet(kMessageSize);
 
   // If the UDP server is blocking, this call never completes because there is
