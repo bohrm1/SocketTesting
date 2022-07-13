@@ -19,7 +19,7 @@
 
 //Allow IPv4 or IPv6(AF_UNSPEC);
 //static const int kAllowedAiFamily = AF_INET6;
-static const int kAllowedAiFamily = AF_INET6;
+static const int kAllowedAiFamily = AF_INET;
 
 UDPServerIPv6::UDPServerIPv6(const std::string& local_address,
                              uint16_t local_port, size_t rx_buffer_size)
