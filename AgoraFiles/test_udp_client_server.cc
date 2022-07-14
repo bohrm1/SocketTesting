@@ -10,13 +10,13 @@
 #include "utils.h"
 
 static constexpr size_t kServerUDPPort = 3185;
-static constexpr size_t kMessageSize = 9000;
+static constexpr size_t kMessageSize = 1000;
 static constexpr size_t kNumPackets = 10000;
 std::atomic<size_t> server_ready;
 
 void ClientFunc() {
   std::vector<uint8_t> packet(kMessageSize);
-  UDPClient udp_client;
+  UDPClient udp_client(4000);
 
   while (server_ready == 0) {
     // Wait for server to get ready
@@ -25,7 +25,7 @@ void ClientFunc() {
   for (size_t i = 1; i <= kNumPackets; i++) {
     static_assert(kMessageSize >= sizeof(size_t));
     *reinterpret_cast<size_t*>(&packet[0]) = i;
-    udp_client.Send("localhost", kServerUDPPort, &packet[0], kMessageSize);
+    udp_client.Send("168.6.245.90", kServerUDPPort, &packet[0], kMessageSize);
   }
 }
 
@@ -37,8 +37,8 @@ void ServerFunc() {
   // Without buffer resizing, the server will sometimes drop packets and
   // therefore never return from this function
   //UDPServer udp_server(kServerUDPPort, kMessageSize * kNumPackets);
-  UDPServerIPv6 udp_server("127.0.0.1", kServerUDPPort, kMessageSize * kNumPackets);
-  std::vector<uint8_t> pkt_buf(kMessageSize);
+  UDPServerIPv6 udp_server("168.6.245.90", kServerUDPPort, kMessageSize * kNumPackets);
+  std::vector<std::byte> pkt_buf(kMessageSize);
 
   server_ready = 1;
   size_t largest_pkt_index = 0;
@@ -80,12 +80,12 @@ TEST(UDPClientServer, Perf) {
 
 // Test that the server is actually non-blocking
 TEST(UDPClientServer, ServerIsNonBlocking) {
-  UDPServerIPv6 udp_server("127.0.0.1", kServerUDPPort, kMessageSize * kNumPackets);
+  UDPServerIPv6 udp_server("168.6.245.90", kServerUDPPort, kMessageSize * kNumPackets);
   std::vector<uint8_t> packet(kMessageSize);
 
   // If the UDP server is blocking, this call never completes because there is
   // no data to receive
-  ssize_t ret = udp_server.Recv(&packet[0], kMessageSize);
+  ssize_t ret = udp_server.Recv((std::byte*)&packet[0], kMessageSize);
   ASSERT_EQ(ret, 0);
 }
 
