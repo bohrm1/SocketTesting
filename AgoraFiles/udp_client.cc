@@ -4,8 +4,9 @@
  */
 
 #include <mutex>
-#include <ScopedLock.h>
-
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include "udp_client.h"
 
 #include <netdb.h>
@@ -34,7 +35,8 @@ UDPClient::UDPClient(uint16_t src_port) {
   if (src_port != 0) {
     ::sockaddr_in local_address;
     local_address.sin_family = AF_INET;
-    local_address.sin_addr.s_addr = htonl(INADDR_ANY);
+    //local_address.sin_addr.s_addr = htonl(INADDR_ANY);
+    local_address.sin_addr.s_addr = inet_addr("168.6.245.90");
     local_address.sin_port = htons(src_port);
     std::memset(local_address.sin_zero, 0u, sizeof(local_address.sin_zero));
     const int bind_result =
