@@ -27,7 +27,7 @@ public:
     std::string getCommsProtocol(void);
 
     void send(const std::string &server_message);
-    void recieve (void);
+    void receive (void);
 };
 
 #endif
