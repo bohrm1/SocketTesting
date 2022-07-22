@@ -114,7 +114,7 @@ void Server::recieve (void) {
         socklen_t client_address_length = sizeof(client_address);
         int n = ::recvfrom(ServerSocket, (char *)buffer, MAXLINE_CLIENTBUFFER, MSG_WAITALL, (struct sockaddr *)clientaddr_ptr, &client_address_length);   //why am I sending so many bytes? 
         buffer[n] = '\0';
-        printf("Client: %s \n", buffer);
+        //printf("Client: %u \n", buffer);
     }
 }
 
