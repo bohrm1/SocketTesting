@@ -25,7 +25,7 @@ DEFINE_validator(port_number, &ValidatePort);
 DEFINE_string(comms_protocol, "TCP", "Communication protocol (TCP/UDP). Defualt is TCP");
 //DEFINE_validator(port_number, &ValidatePort);
 void DoServer(Server &myserver) {
-    std::string message = "Hello from server awesome";
+    std::string message = "Hello from server";
     myserver.recieve();
     myserver.send(message); 
 }
