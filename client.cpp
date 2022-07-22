@@ -55,7 +55,7 @@ void Client::recieve(void) {
 				printf("Recieve Status: %u \n", recieve_status);
 			}
 			else {
-				printf("The server sent the data: %s \n", server_response);
+				printf("Server: %s \n", server_response);
 				printf("Recieve Status: %u \n", recieve_status);
 			}
 		}
@@ -75,6 +75,7 @@ void Client::recieve(void) {
 		int n = ::recvfrom(NetworkSocket, (char *)server_response, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
 		server_response[n] = '\0';
 		printf("Server: %s\n", server_response);
+		printf("Recieve Status: %u \n", n);
 	}
 }
 
@@ -83,7 +84,7 @@ void Client::send(void) {
 		ConnectionStatus = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
 	}
 	else {
-		std::string client_message = "Client messages";   //char*
+		std::string client_message = "Hello from client";   //char*
 		::sendto(NetworkSocket, client_message.c_str(), client_message.length(), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 	}
 }
