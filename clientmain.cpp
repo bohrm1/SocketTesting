@@ -36,7 +36,7 @@ int main (int argc, char *argv[])  {
 
     Client client1(FLAGS_port_number, "example_address", FLAGS_comms_protocol);
     client1.send();
-    client1.recieve();
+    client1.receive();
 
     return 0;
 }

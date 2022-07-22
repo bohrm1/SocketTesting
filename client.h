@@ -30,7 +30,7 @@ public:
     std::string getCommmsProtocol(void);
 
     void send(void);
-    void recieve(void);
+    void receive(void);
 };
 
 #endif //TCPCLIENT_H

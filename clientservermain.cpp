@@ -32,7 +32,7 @@ void DoServer(Server &myserver) {
 
 void DoClient(Client &myclient) {
     myclient.send();
-    myclient.recieve(); 
+    myclient.receive(); 
 }
 
 void Dumb(void) {

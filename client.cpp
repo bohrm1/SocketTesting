@@ -37,7 +37,7 @@ Client::~Client() {
 	::close(ClientSocket);
 }
 
-void Client::recieve(void) {
+void Client::receive(void) {
 
 	if (CommsProtocol == "TCP") {
 		//int connection_status = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
