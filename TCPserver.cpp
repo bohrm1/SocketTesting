@@ -21,7 +21,7 @@ TCPserver::TCPserver(int port_number, std::string server_addr) {
     ServerAddr = server_addr;
     ServerSocket = socket(AF_INET, SOCK_STREAM, 0);
 
-    char server_message[17] = "Recieved message";
+    char server_message[17] = "Server message";
 
     if(ServerSocket < 0) {
         printf("Failed to creat server socket");

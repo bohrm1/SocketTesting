@@ -46,7 +46,7 @@ TCPclient::TCPclient(int port_number, std::string client_address) {
 			printf("Recieve Status: %u \n", recieve_status);
 		}
 		else {
-			printf("The server sent the data: %s \n", server_response);
+			printf("Server: %s \n", server_response);
 			printf("Recieve Status: %u \n", recieve_status);
 		}
 	}

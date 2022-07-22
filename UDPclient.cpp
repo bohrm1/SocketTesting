@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
 
 	buffer[n] = '\0';
 	printf("Server: %s\n", buffer);
+	printf("Recieve Status: %u \n", n);
 	close(network_socket);
 
 	return 0;
