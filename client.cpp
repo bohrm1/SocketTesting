@@ -26,15 +26,15 @@ Client::Client(int port_number, std::string client_address, std::string comms_pr
 	server_address.sin_addr.s_addr = INADDR_ANY;
 
 	if (CommsProtocol == "TCP") {
-		NetworkSocket = socket(AF_INET, SOCK_STREAM, 0);
+		ClientSocket = socket(AF_INET, SOCK_STREAM, 0);
 	}
 	else if (CommsProtocol == "UDP") {
-		NetworkSocket = socket(AF_INET, SOCK_DGRAM, 0);
+		ClientSocket = socket(AF_INET, SOCK_DGRAM, 0);
 	}
 }
 
 Client::~Client() {
-	::close(NetworkSocket);
+	::close(ClientSocket);
 }
 
 void Client::recieve(void) {
@@ -48,7 +48,7 @@ void Client::recieve(void) {
 		}
 		else 
 		{
-			int recieve_status = ::recv(NetworkSocket, &server_response, sizeof(server_response), 0);
+			int recieve_status = ::recv(ClientSocket, &server_response, sizeof(server_response), 0);
 
 			if(recieve_status == MAXLINE) {       //checking if the server message fills server_response
 				printf("The server message has filled up the buffer: %s \n", server_response);
@@ -72,7 +72,7 @@ void Client::recieve(void) {
 		::sendto(NetworkSocket, client_message.c_str(), client_message.length(), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 		*/
 
-		int n = ::recvfrom(NetworkSocket, (char *)server_response, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
+		int n = ::recvfrom(ClientSocket, (char *)server_response, MAXLINE, MSG_WAITALL, (struct sockaddr *)serveraddr_ptr, &server_address_length);
 		server_response[n] = '\0';
 		printf("Server: %s\n", server_response);
 		printf("Recieve Status: %u \n", n);
@@ -81,11 +81,11 @@ void Client::recieve(void) {
 
 void Client::send(void) {
 	if (CommsProtocol == "TCP") {
-		ConnectionStatus = ::connect(NetworkSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
+		ConnectionStatus = ::connect(ClientSocket, (struct sockaddr *)serveraddr_ptr, sizeof(server_address));
 	}
 	else {
 		std::string client_message = "Hello from client";   //char*
-		::sendto(NetworkSocket, client_message.c_str(), client_message.length(), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
+		::sendto(ClientSocket, client_message.c_str(), client_message.length(), MSG_CONFIRM, (const struct sockaddr *)serveraddr_ptr, server_address_length);
 	}
 }
 

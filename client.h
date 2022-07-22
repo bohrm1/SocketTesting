@@ -10,7 +10,7 @@ private:
     int PortNumber;
     std::string ClientAddress;
     std::string CommsProtocol;
-    int NetworkSocket;              
+    int ClientSocket;              
     char server_response[MAXLINE]; 
     int ConnectionStatus;
 
