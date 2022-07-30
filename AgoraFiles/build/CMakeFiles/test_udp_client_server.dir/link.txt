@@ -1,0 +1,1 @@
+/usr/bin/c++ -std=c++17 CMakeFiles/test_udp_client_server.dir/test_udp_client_server.cc.o CMakeFiles/test_udp_client_server.dir/udp_client.cc.o CMakeFiles/test_udp_client_server.dir/udp_server_ipv6.cc.o CMakeFiles/test_udp_client_server.dir/utils.cc.o -o test_udp_client_server  /usr/lib/x86_64-linux-gnu/libgflags.so.2.2.2 -lnuma -lgtest -lpthread 
