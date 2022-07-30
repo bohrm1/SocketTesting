@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/space/mjb20/socket/TCPclient.cpp
+iostream
+-
+gflags/gflags.h
+-
+stdio.h
+-
+stdlib.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+unistd.h
+-
+netinet/in.h
+-
+string
+-
+TCPclient.h
+/space/mjb20/socket/TCPclient.h
+
+/space/mjb20/socket/TCPclient.h
+string
+-
+

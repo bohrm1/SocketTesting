@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/TCPclient.dir/TCPclientmain.cpp.o CMakeFiles/TCPclient.dir/TCPclient.cpp.o -o TCPclient  -lgflags 

@@ -1,0 +1,7 @@
+/space/mjb20/socket/build/CMakeFiles/rebuild_cache.dir
+/space/mjb20/socket/build/CMakeFiles/edit_cache.dir
+/space/mjb20/socket/build/CMakeFiles/client.dir
+/space/mjb20/socket/build/CMakeFiles/TCPclient.dir
+/space/mjb20/socket/build/CMakeFiles/clientserver.dir
+/space/mjb20/socket/build/CMakeFiles/server.dir
+/space/mjb20/socket/build/CMakeFiles/TCPserver.dir

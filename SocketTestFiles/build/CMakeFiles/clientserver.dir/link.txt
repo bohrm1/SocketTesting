@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/clientserver.dir/clientservermain.cpp.o CMakeFiles/clientserver.dir/client.cpp.o CMakeFiles/clientserver.dir/server.cpp.o -o clientserver  -lgflags -lpthread 
