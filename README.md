@@ -1,5 +1,5 @@
 # SocketTesting
-This repo was made for testing sockets as part of Rice University's REU program. The current working branch socket_new.
+This repo was made for testing sockets as part of Rice University's REU program. The current working branch socket_new (NAVIGATE TO THIS BRANCH FOR USEFUL CODE).
 
 The breakdown of the files is as follows. The SocketTestFiles directory holds the files used to create UDP and TCP client-server models. The files are organized in the following manner: 
 
